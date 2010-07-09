@@ -34,7 +34,7 @@ This initial version of Jyn was a one-night hack job. It does not have argument 
 
 What about Jython ctypes?
 -------------------------
-Indeed, the only reason to use this module is because Jython does not have a working ctypes implementation in its stable releases yet. This module probably isn't even as stable as the unstable ctypes implementation in the Jython development versions. Use it at your own risk. It is intended mainly as a demonstration and learning tool, and is not recommended for production code. Of course, if you want to modify it under the terms of the GPL and make it production-ready, I'm all for that!
+Indeed, the only reason to use this module is because Jython does not have a working ctypes implementation in its stable releases yet. This module probably isn't even as stable as the unstable ctypes implementation in the Jython development versions. Use it at your own risk. It is intended mainly as a demonstration and learning tool, and is not recommended for production code. Of course, if you want to modify it under the terms of the LGPL and make it production-ready, I'm all for that!
 
    [1]: http://www.jython.org "Jython"
    [2]: https://jna.dev.java.net/ "JNA"
