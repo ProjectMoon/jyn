@@ -1,0 +1,40 @@
+Jyn: Simple Jython native code access layer
+===========================================
+
+Jyn, or **JY**thon **N**ative, is a simple native access layer for [Jython][1], the Java implementation of Python. This module is similar to ctypes, but nowhere near as powerful, comprehensive, or tested. It was mostly an experiment to see what I could do with [JNA][2]. JNA is an easier alternative to JNI, and is a good candidate for Java-based solutions that require native code. 
+
+How Jyn Works
+-------------
+
+Using Jyn is simple. First, make sure jna.jar (included in the repo) is on your CLASSPATH. Then, you just import the module, create a Library object pointing to a library on the system, and then you can call the library's functions as normal Python functions:
+
+    import jyn
+    lib = jyn.libc() #Load libc for Windows or Unix
+    printf = lib.printf
+    printf("Hello world! I am printing from Jython!\n")
+
+In essence, Jyn is a dynamic wrapper around JNA. From Java code, one must create interfaces or use a bulky reflection-like API to invoke native functions. Jyn greatly simplifies this.
+
+Return Types
+------------
+The default return type for any mapped native function is *int*. While many C functions return ints, not all do. Like in ctypes, the return type of the function can be changed:
+
+    lib = jyn.libc()
+    lib.fopen.restype = jyn.Pointer
+
+The fopen system call returns a FILE* in C. Jython sees this as a generic Pointer object (although you could define a specific one if you wanted to). By setting the return type to Pointer, we can now use fopen:
+
+    ptr = lib.fopen("some file", "w")
+    lib.fprintf(ptr, "this is in the file")
+    lib.fclose(ptr)
+
+The To-Do List
+--------------
+This initial version of Jyn was a one-night hack job. It does not have argument checking. Thus, passing the wrong arguments to a native function tends to crash the JVM. That is on the top list of my priorities to fix.
+
+What about Jython ctypes?
+-------------------------
+Indeed, the only reason to use this module is because Jython does not have a working ctypes implementation in its stable releases yet. This module probably isn't even as stable as the unstable ctypes implementation in the Jython development versions. Use it at your own risk. It is intended mainly as a demonstration and learning tool, and is not recommended for production code. Of course, if you want to modify it under the terms of the GPL and make it production-ready, I'm all for that!
+
+   [1]: http://www.jython.org "Jython"
+   [2]: https://jna.dev.java.net/ "JNA"
